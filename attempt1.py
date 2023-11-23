@@ -51,7 +51,6 @@ def _encode_dates(X):
     return X.drop(columns=["date"])
 
 X_train, y_train = problem.get_train_data()
-X_test, y_test = problem.get_test_data()
 X_final = problem.get_final_test_data()
 
 def _encode_categorical(X):
@@ -84,8 +83,6 @@ def get_estimator():
 pipe = get_estimator()
 pipe.fit(X_train, y_train)
 y_pred = pipe.predict(X_final)
-
-print(f"Test set, RMSE={mean_squared_error(y_test, pipe.predict(X_test), squared=False):.2f}")
 
 #cv = TimeSeriesSplit(n_splits=6)
 
