@@ -71,7 +71,7 @@ def get_estimator():
             ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
         ]
     )
-    regressor = XGBRegressor(n_estimators=1000, max_depth=25, eta=0.1, subsample=0.9, colsample_bytree=0.6)
+    regressor = XGBRegressor(n_estimators=1000, max_depth=11, eta=0.1, subsample=0.9, colsample_bytree=0.6)
     # regressor = GradientBoostingRegressor(n_estimators=30, max_depth=25)
     # regressor = Ridge()
     # regressor = LinearRegression()
@@ -84,13 +84,13 @@ pipe = get_estimator()
 pipe.fit(X_train, y_train)
 y_pred = pipe.predict(X_final)
 
-#cv = TimeSeriesSplit(n_splits=6)
+cv = TimeSeriesSplit(n_splits=6)
 
-#scores = cross_val_score(
-#    pipe, X_train, y_train, cv=cv, scoring="neg_root_mean_squared_error"
-#)
-#print("RMSE: ", scores)
-#print(f"RMSE (all folds): {-scores.mean():.3} ± {(-scores).std():.3}")
+scores = cross_val_score(
+    pipe, X_train, y_train, cv=cv, scoring="neg_root_mean_squared_error"
+)
+print("RMSE: ", scores)
+print(f"RMSE (all folds): {-scores.mean():.3} ± {(-scores).std():.3}")
 
 results = pd.DataFrame(
     dict(
